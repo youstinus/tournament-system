@@ -1,0 +1,124 @@
+<div style="font-size: 40px; text-align: center; font-family: Helvetica;">Create or resume tournament</div>
+<td class="stepper1">
+  <tournament-info></tournament-info>
+</td>
+
+<td class="stepper1">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <div class="stepper">
+    <mat-vertical-stepper [linear]="true" #stepper style="width: 500px;">
+      <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup">
+          <ng-template matStepLabel>Fill out tournament title</ng-template>
+          <mat-form-field>
+            <input matInput maxlength="150" formControlName="firstCtrl" placeholder="e.g. Women Beach Volleyball Championship" #title
+              required>
+          </mat-form-field>
+          <div>
+            <button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="typeFormGroup">
+        <form [formGroup]="typeFormGroup">
+          <ng-template matStepLabel>Select game type</ng-template>
+          <mat-form-field>
+            <input formControlName="typeCtrl" matInput hidden>
+            <select #category class="form-control" id="exampleSelect1">
+              <option value="{{categories.NotSpecified}}">NotSpecified</option>
+              <option value="{{categories.Basketball}}">Basketball</option>
+              <option value="{{categories.Football}}">Football</option>
+              <option value="{{categories[PingPong]}}">Table tennis</option>
+              <option value="{{categories.Csgo}}">CS:GO</option>
+              <option value="{{categories.Other}}">Other</option>
+              <option value="{{categories.Kendo}}">Kendo</option>
+              <option value="{{categories.Boxing}}">Boxing</option>
+              <option value="{{categories.Volleyball}}">Volleyball</option>
+              <option value="{{categories.Baseball}}">Baseball</option>
+              <option value="{{categories.Diving}}">Diving</option>
+              <option value="{{categories.Cycling}}">Cycling</option>
+              <option value="{{categories.Rugby}}">Rugby</option>
+              <option value="{{categories.Tennis}}">Tennis</option>
+              <option value="{{categories.Wrestling}}">Wrestling</option>
+            </select>
+          </mat-form-field>
+          <div>
+            <button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <!--A Working team selection form-->
+      <!--
+      
+      <mat-step [stepControl]="form">
+        <mat-form-field [formGroup]="form">
+          <ng-template matStepLabel>Select teams</ng-template>
+          <input formControlName="secondCtrl" matInput hidden>
+          <label style="margin-right: 10px;" formArrayName="teams" *ngFor="let team of teams; let i = index">
+            <input type="checkbox" formControlName='{{i}}'> {{teams[i].title }} </label>
+          <div *ngIf="!form.valid">At least three must be selected</div>
+        </mat-form-field>
+        <div>
+          <button matStepperPrevious>Back</button>
+          <button matStepperNext>Next</button>
+        </div>
+      </mat-step>-->
+
+
+      <mat-step>
+
+
+
+
+        <mat-form-field [formGroup]="teamForm">
+          <ng-template matStepLabel>Select teams</ng-template>
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>
+
+        <table mat-table [dataSource]="dataSource" class="mat-elevation78">
+
+
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef> Title </th>
+            <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+          </tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
+
+
+
+
+        <div *ngIf="!teamForm.valid">At least two must be selected</div>
+        <div>
+          <button matStepperPrevious>Back</button>
+          <button matStepperNext>Next</button>
+        </div>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        You are now done. Submit to shuffle teams and show your tournament table
+        <div>
+          <button matStepperPrevious>Back</button>
+          <button (click)="stepper.reset()">Reset</button>
+          <button (click)="onSubmit(title.value, category.value)">Submit</button>
+        </div>
+      </mat-step>
+    </mat-vertical-stepper>
+  </div>
+</td>

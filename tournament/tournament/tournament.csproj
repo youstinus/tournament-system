@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20180809114525_ParticipantAdded.cs" />
+    <Compile Remove="Migrations\20180809114525_ParticipantAdded.Designer.cs" />
+    <Compile Remove="Migrations\20180812164223_Tournament and Match updated.cs" />
+    <Compile Remove="Migrations\20180812164223_Tournament and Match updated.Designer.cs" />
+    <Compile Remove="Migrations\20180812200050_version1.cs" />
+    <Compile Remove="Migrations\20180812200050_version1.Designer.cs" />
+    <Compile Remove="Migrations\20180812201031_V1.cs" />
+    <Compile Remove="Migrations\20180812201031_V1.Designer.cs" />
+    <Compile Remove="Migrations\20180814071846_MatchModelChanged.cs" />
+    <Compile Remove="Migrations\20180814071846_MatchModelChanged.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
+  </ItemGroup>
+
+</Project>

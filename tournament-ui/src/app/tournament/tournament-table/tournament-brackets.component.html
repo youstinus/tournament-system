@@ -1,0 +1,40 @@
+<td><div style="font-size: 40px; text-align: center; font-family: Helvetica;" *ngIf="tournamentObject">{{tournamentObject.title}}</div>
+<table>
+
+  <div style="width: 400px; padding: 10px" *ngFor="let match of matches">
+    <table style="border: 1px solid white; padding: 10px;">
+      <td style="vertical-align: middle; width: 35px; text-align: left; font-size: 30px;">
+        {{match.sequenceNr}}
+      </td>
+      <td style="width: 250px; vertical-align: top; font-size: 18px;">
+        <tr *ngIf="match.matchTeams && match.matchTeams[0] && match.matchTeams[0].title.length > 0" style="vertical-align: top;"
+          [style.background-color]="getStyleTeam1(match.sequenceNr - 1)">
+          {{match.matchTeams[0].title}}
+        </tr>
+        <tr *ngIf="match.matchTeams && match.matchTeams[1] && match.matchTeams[1].title.length > 0" style="vertical-align: top;"
+          [style.background-color]="getStyleTeam2(match.sequenceNr - 1)">
+          {{match.matchTeams[1].title}}
+        </tr>
+      </td>
+      <td style="vertical-align: middle; width: 50px;">
+        <tr>
+
+          <input #inputTeam1 name="imputTeam1" type="number" style="width: 50px; text-align: center;" placeholder="{{match.scoreTeam1}}">
+        </tr>
+        <tr>
+          <input #inputTeam2 name="imputTeam2" type="number" style="width: 50px;  text-align: center;" placeholder="{{match.scoreTeam2}}">
+        </tr>
+      </td>
+      <td style="vertical-align: middle;">
+        <button (click)="onAddButtonClick(inputTeam1.value, inputTeam2.value, match.sequenceNr)" style="height: 40px; width: 65px;"
+          [disabled]="!match.matchTeams || !match.matchTeams[0] || !match.matchTeams[1]">Submit
+          <!-- might help !inputTeam1.value.length == 0 || !inputTeam2.value.length == 0 || inputTeam1.value == inputTeam2.value ||-->
+        </button>
+      </td>
+    </table>
+  </div>
+</table>
+</td>
+<td>
+  <div style="font-size: 40px; text-align: center; font-family: Helvetica;" *ngIf="winnerTitle">Winner is {{winnerTitle}}</div>
+</td>

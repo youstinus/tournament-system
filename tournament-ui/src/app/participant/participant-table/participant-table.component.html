@@ -1,0 +1,46 @@
+<h4>Participants:</h4>
+<table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+  <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+    <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+    <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+  </ng-container>
+
+  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+      <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+        <div class="example-element-description">
+          <!-- {{element.description}} -->
+          <!-- Add participants -->
+          <div *ngIf="element.position==dataSource.filteredData.length">
+            <div>
+              <h4>First name:</h4>
+              <input type="text" #name>
+            </div>
+            <div>
+                <h4>Last name:</h4>
+              <input type="text" #lastName>
+            </div>
+            <div>
+                <h4>Age:</h4>
+              <input type="number" #age>
+            </div>
+            <div>
+              <button (click)="onAddButtonClick(name.value, lastName.value, age.value)">Add</button>
+            </div>  
+          </div>
+          <!-- Remove participants -->
+          <div *ngIf="element.position!=dataSource.filteredData.length">
+            <button type="button" class="btn btn-remove" (click)="onRemoveButtonClick(element)">Remove</button>
+          </div>
+        </div>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row" [class.example-expanded-row]="expandedElement === element"
+    (click)="expandedElement = element">
+  </tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+</table>

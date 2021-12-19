@@ -1,0 +1,41 @@
+<mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+</mat-form-field>
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+    <ng-container matColumnDef="title">
+      <mat-header-cell style="width: 200px;" *matHeaderCellDef> Title </mat-header-cell>
+      <mat-cell style="width: 200px;" *matCellDef="let element"> {{element.title}} </mat-cell>
+    </ng-container>
+
+
+    <ng-container matColumnDef="numberOfTeams">
+      <mat-header-cell *matHeaderCellDef> Team count </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.numberOfTeams}} </mat-cell>
+    </ng-container>
+
+
+    <ng-container matColumnDef="winnerTeamId">
+      <mat-header-cell *matHeaderCellDef> Winner </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.winnerTeamId}} </mat-cell>
+    </ng-container>
+
+
+    <ng-container matColumnDef="game">
+      <mat-header-cell *matHeaderCellDef> Game Type </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.game}} </mat-cell>
+    </ng-container>
+
+
+    <ng-container matColumnDef="open">
+      <mat-header-cell style="margin-left: 20px;" *matHeaderCellDef> Open </mat-header-cell>
+      <button mat-flat-button color="primary" style="margin-right: 20px;" *matCellDef="let element" (click)="onOpenMatch(element.id)">Open</button>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>

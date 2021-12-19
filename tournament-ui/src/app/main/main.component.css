@@ -1,0 +1,21 @@
+.left {
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+    background-color: #303030;
+    border-radius: 0.3rem;
+    top: 50%;
+    position: absolute;
+}
+
+.pngPosition {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+.textPosition {
+    text-align: center;
+    background-color: #303030;
+}

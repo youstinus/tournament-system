@@ -1,0 +1,92 @@
+<h4>Teams:</h4>
+<table mat-table [dataSource]="teamDataSource" multiTemplateDataRows class="mat-elevation-z8">
+  <ng-container matColumnDef="{{column}}" *ngFor="let column of teamColumnsToDisplay">
+    <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+    <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+  </ng-container>
+
+  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let element" [attr.colspan]="teamColumnsToDisplay.length">
+      <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+        <!-- <div class="example-element-diagram"> -->
+        <div class="example-element-description">
+          <!-- {{element.description}} -->
+          <!-- Add participants -->
+          <div *ngIf="element.position==teamDataSource.filteredData.length">
+            <div class="center">
+              <h4>Team title:</h4>
+            </div>
+            <th>
+              <input #teamTitle type="text">
+            </th> 
+              <div>
+                  <h4>Select participants for this team:</h4>
+                  <table mat-table [dataSource]="participantDataSource" class="mat-elevation-z8" style="width: 20rem">
+
+                      <!-- Checkbox Column -->
+                      <ng-container matColumnDef="select">
+                        <th mat-header-cell *matHeaderCellDef>
+                          <mat-checkbox (change)="$event ? masterToggle() : null"
+                                        [checked]="selection.hasValue() && isAllSelected()"
+                                        [indeterminate]="selection.hasValue() && !isAllSelected()">
+                          </mat-checkbox>
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                          <mat-checkbox (click)="$event.stopPropagation()"
+                                        (change)="$event ? selection.toggle(row) : null"
+                                        [checked]="selection.isSelected(row)">
+                          </mat-checkbox>
+                        </td>
+                      </ng-container>
+                    
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="id">
+                          <th mat-header-cell *matHeaderCellDef> Id </th>
+                          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                        </ng-container>
+
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="firstName">
+                        <th mat-header-cell *matHeaderCellDef> Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+                      </ng-container>
+                    
+                      <!-- Weight Column -->
+                      <ng-container matColumnDef="lastName">
+                        <th mat-header-cell *matHeaderCellDef> Last name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+                      </ng-container>
+                    
+                      <!-- Symbol Column -->
+                      <ng-container matColumnDef="age">
+                        <th mat-header-cell *matHeaderCellDef> Age </th>
+                        <td mat-cell *matCellDef="let element"> {{element.age}} </td>
+                      </ng-container>
+                    
+                      <tr mat-header-row *matHeaderRowDef="participantColumnsToDisplay"></tr>
+                      <tr mat-row *matRowDef="let row; columns: participantColumnsToDisplay;"
+                          (click)="selection.toggle(row)">
+                      </tr>
+                    </table>
+              </div>
+              <div>
+                  <button (click)="onAddButtonClick(teamTitle.value)">Add</button>
+              </div>        
+          </div>
+          
+          <!-- Remove participants -->
+          <div *ngIf="element.position!=teamDataSource.filteredData.length">
+            <button type="button" class="btn btn-remove" (click)="onRemoveButtonClick(element)">Remove</button>
+          </div>
+        </div>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="teamColumnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let element; columns: teamColumnsToDisplay;" class="example-element-row" [class.example-expanded-row]="expandedElement === element"
+    (click)="expandedElement = element">
+  </tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+</table>
